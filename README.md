@@ -50,12 +50,88 @@ base-package 어트립뷰트에 스캔할 패키지 경로를 적는다
 * 스프링에서 관리되는 객체를 ‘빈(Bean)”이라고 부르고, 빈은 xml을 통해 등록한다
 ### 즉 넘겨주고 싶은 것은 @Componet를 달고 달아놓은 컴포넌트를 가지고 오고 싶을 때는 @Autowired를 쓰면 됨
 ```C
+@Component
+public class Market {
+	@Autowired
+	private Fruit fruit;
+
+	public Fruit getFruit() {
+		return fruit;
+	}
+	public void setFruit(Fruit fruit) {
+		this.fruit = fruit;
+	}
+}
 
 @Component
-public class Market{
+public class Fruit {
+	private String name;
+	private int price = 10;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+}
 
+@Controller
+public class HomeController {
+	
+	@Autowired
+	private Market market;
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		model.addAttribute("market", market);
+		return "home";
+	}
 }
 ```
+## 4. JUnit
+*  자바용 단위 테스트 API
+*  단위 테스트: 하나의 기능이 올바르게 동작하는지 독립적으로 테스트하는 것
 
-      
-      
+### JUnit 관련 어노테이션들
+*  @Test: 이 어노테이션이 붙어있는 메서드를 단위 테스트로 인식하고 실행한다
+*  @Ignore: 이 어노테이션을 붙인 테스트 메서드를 무시한다.
+*  @Test(expectied=): 원하는 예외가 발생해야 통과하는 테스트
+*  @Test(timeout=): 시간 제한 안에 성공해야 하는 테스트
+
+## 5. Spring Test 관련 어노테이션들
+*  @RunWith(SpringJUint4ClassRunner.class): 테스트를 스프링 테스트로 실행하기 위한 설정
+*  @ContextConfiguration(컨텐스트 경로): 원하는 Context를 로드하여 테스트를 진행할 수 있다
+-Context에 실려있는 Bean들을 테스트하기 위한 옵션이다
+
+### 테스트를 하기 위한 세팅
+1. MVN 레포지토리 홈페이지에 들어가 원하는 JAR가 있으면 메이븐 코드를 복사해서 POM.xml에 들어가서 Spring에 들어가서 해당 코드를 붙이기
+![image](https://user-images.githubusercontent.com/82793713/126891397-0f9089c8-3252-41de-8b69-0c7183f357cf.png)
+2. 프로젝트 우클릭-메이븐-메이븐 업데이트를 하면 원하는 JAR가 들어가 있음
+3. 테스트 하려는 클래스 위에 @RunWith(SpringJUnit4ClassRunner.class)와
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")를 불러와줘야함
+```C
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml")
+public class QuizTest {
+	
+	@Autowired
+	Prime prime;
+	
+	@Test
+	public void check1() {
+		assertFalse("1이 소수가 아니라고 나와야 함",prime.isPrime(1));
+	}
+	
+	@Test
+	public void check3() {
+		assertTrue( "3이 소수인지 테스트", prime.isPrime(3));
+	}
+}
+```
