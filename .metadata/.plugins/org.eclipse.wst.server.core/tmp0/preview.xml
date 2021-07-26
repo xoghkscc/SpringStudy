@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<server port="8080">
-  <module context="practice" name="Practice_SpringMVC" path="C:/Users/xoghk/OneDrive/바탕 화면/공부/국비/git/SpringStudy/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/Practice_SpringMVC" type="j2ee"/>
-</server>

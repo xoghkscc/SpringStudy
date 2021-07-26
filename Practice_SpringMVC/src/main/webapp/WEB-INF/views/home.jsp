@@ -9,6 +9,9 @@
 	Hello world!  
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<p>${market }</p>
+<p>${market.fruit }</p>
+<p>${market.fruit.price }</p>
+
 </body>
 </html>
