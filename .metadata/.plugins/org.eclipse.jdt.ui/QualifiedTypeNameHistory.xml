@@ -2,11 +2,6 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="com.kgitbank.model.Fruit"/>
     <fullyQualifiedTypeName name="com.kgitbank.model.Market"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
-    <fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
-    <fullyQualifiedTypeName name="org.springframework.test.context.junit4.SpringJUnit4ClassRunner"/>
-    <fullyQualifiedTypeName name="org.springframework.test.context.ContextConfiguration"/>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
     <fullyQualifiedTypeName name="com.kgitbank.quiz.Prime"/>
     <fullyQualifiedTypeName name="org.junit.Ignore"/>
     <fullyQualifiedTypeName name="java.lang.CloneNotSupportedException"/>
@@ -18,5 +13,18 @@
     <fullyQualifiedTypeName name="lombok.Setter"/>
     <fullyQualifiedTypeName name="lombok.RequiredArgsConstructor"/>
     <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.ToString"/>
+    <fullyQualifiedTypeName name="org.apache.logging.log4j.core.Logger"/>
+    <fullyQualifiedTypeName name="com.kgitbank.model.LombokTest"/>
+    <fullyQualifiedTypeName name="java.lang.Math"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
+    <fullyQualifiedTypeName name="com.kgitbank.service.RockPaperScissors"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="com.kgitbank.model.Employee"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+    <fullyQualifiedTypeName name="org.springframework.test.context.junit4.SpringJUnit4ClassRunner"/>
+    <fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
+    <fullyQualifiedTypeName name="org.springframework.test.context.ContextConfiguration"/>
+    <fullyQualifiedTypeName name="org.springframework.test.context.web.WebAppConfiguration"/>
+    <fullyQualifiedTypeName name="lombok.extern.log4j.Log4j"/>
 </qualifiedTypeNameHistroy>
