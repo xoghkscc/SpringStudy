@@ -45,6 +45,7 @@ Tire[] tires = new Tire[4]
 base-package 어트립뷰트에 스캔할 패키지 경로를 적는다
 ```C
 <context:component-scan base-package="com.kgitbank.*" />
+//servlet-context.xml 혹은 root-context.xml에 작성되는 코드
 //이런식으로 스캔할 패키지 경로 전체를 *로 해줘도 됨
 ```
 * 스프링에서 관리되는 객체를 ‘빈(Bean)”이라고 부르고, 빈은 xml을 통해 등록한다
@@ -134,4 +135,184 @@ public class QuizTest {
 		assertTrue( "3이 소수인지 테스트", prime.isPrime(3));
 	}
 }
+```
+## 6. Junit 테스트 방식
+* assertEquals(a, b): a와 b의 값이 같은 값이면 테스트 통과
+* assertSame(a, b): a와 b가 같은 인스턴스일 때 테스트 통과
+* assertTrue(a): a의 실행 결과가 true일 때 테스트 통과
+* assertFalse(a): a의 실행 결과가 false일 때 테스트 통과
+* assertNotNull(a): a의 실행 결과가 null이 아니면 테스트 통과
+* fail(msg): 이 메서드를 만나면 무조건 실패
+## 7. Lombok
+### Lombok을 사용하기 위한 세팅
+1.  구글에 Lombok을 검색 후 다운
+2.  jar파일을 실행 후 Specify location을 눌러 eclipse.exe가 있는 경로를 찾아가 eclipse.exe을 클릭 후 설치
+이때 이클립스.exe까지의 경로 중 한글 경로를 피해야 함
+3.  mavan 레포지토리에 가서 project lombok을 검색하여 다운 받은 롬북 버전을 찾아 그 메이븐을 pom.xml에 추가
+4.  메이븐 업데이트
+
+### Lombok
+* 어노테이션만 붙이면 자바빈 스타일의 객체로 완성해주는 라이브러리
+### 사용하는 어노테이션
+* @Getter: 모든 필드에 Getter를 자동으로 생성
+* @Setter: 모든 필드에 Setter를 자동으로 생성
+* @NonNull: 해당 필드는 반드시 값이 있어야 함을 표시해줌
+* @ToString: 모든 필드값을 출력하는 toString()을 알아서 오버라이드
+* @EqualsAnsHashCode: equals와 hashCode를 알아서 생성
+* @Data: 클래스 내부의 모든 필드에 대해 Getter/Setter를 생성, toString, equals, hashCode 오버라이드, 생성자도 자동으로 생성
+* @Log4j: Log4j 연결을 자동으로 생성
+* @NoArgsConstructor: 기본 생성자를 자동으로 생성
+* @RequiredArgsConstructor: @NotNull이 붙은 필드만 채우는 생성자 생성
+* @AllArgsConstructor: 모든 필드값을 채우는 생성자 자동으로 생성
+```C
+@Getter
+@Setter
+@RequiredArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Employee {
+	@NonNull
+	private int employee_id;
+	private String first_name;
+	@NonNull
+	private String last_name;
+	@NonNull
+	private String email;
+	private int department_id;
+}
+//모든 필드에 대해 Getter, Setter가 생성
+//기본 생성자가 생성되며 employee_id, last_name, email를 채우는 생성자 생성
+//toString을 자동 오버라이드
+```
+## 8. POM(Project Object Model)
+* 프로젝트 객체 모델
+* Maven은 프로젝트를 항상 pom.xml에 적혀 있는대로 유지해주는 프로그램
+* pom.xml에는 프로젝트의 모든 설정과 의존성에 대한 정보들을 담고 있다.
+### pom.xml의 태그 정보
+* name: 프로젝트 이름
+* artifactId: 프로젝트의 아티팩트 ID
+* groupId: 프로젝트의 그룹 ID
+* version: 버전 설정
+* packaging: 배포할 파일의 타입을 설정
+* dependencise: 이 프로젝트에서 의존하는 다른 프로젝트들을 적는 곳
+* dependency: 의존하는 프로젝트의 POM 정보를 적는 곳, 의존하는 프로젝트의 groupId, artifactId, version 그리고 프로젝트에 적용될 범위를 설정한다.
+### scope
+* 해당 dependency가 프로젝트에서 영향을 미치는 범위를 설정한다.
+* complie: 컴파일 할 때 필요한 의존성(기본값)
+    * 우리가 만든 소스를 해석하기 위해, 배포에도 포함된다(spring-context)
+* runtime: 런타임에 필요한 의존성
+    * 실행될 때 필요한 것, 배포에도 포함된다(ojdbc.jar, sl4j 등)
+* provided: 컴파일 할 때는 필요하지만 런타임때에는 기본적으로 제공되는 모듈
+    * 컴파일 할때는 필요하지만 배포할 때는 필요가 없는 것(jstl, jsp 등)
+* test: 테스트 코드 컴파일 진행시에만 필요한 의존성, 배포에는 포함되지 않는다.
+ ## 9. Log4j
+ *  자바에서 로그를 호율적으로 남기기 위한 라이브러리
+ *  디버그, 로깅등의 용도로 사용된다(이전에는 sysout으로 찍어봤음)
+ *  Logger: 로그 메시지를 Appender에게 전달한다
+ *  Appender: 자기가 맡은 위치에 전달받은 로그를 추가한다
+ *  Layout: 로그를 어떤 형식으로 기록할지 설정한다
+### Logging level
+* OFF: 로그를 끔
+* FATAL: 치명적인 에러
+* ERROR: 에러
+* WARN: 주의
+* INFO: 일반 정보
+* DEBUG: 디버깅 정보
+* TRACE: 더 자세한 디버깅 정보
+* ALL: 모든 로그를 보여줌
+#### 로거에 로깅 레벨을 설정하며 설정한 레벨 이상으로 중요한 로그들만 수집하게 된다
+```C
+<logger name="com.kgitbank.model">
+  <level value="error"/>
+</logger>
+//이를 통해 로그 레벨을 설정할 수 있다.
+
+class LombokTest{
+  Logger log = Logger.getLogger(this.getClass());
+  @Test
+  public void test(){
+    Employee emp = new Employee(10, "Smith", "Allen");
+    log.info(emp);
+  }
+}
+
+```
+### FileAppender
+```C
+	<appender name="file_appender" class="org.apache.log4j.FileAppender">
+		<param name="file" value="./note/log/test_log.html" />
+		<layout class="org.apache.log4j.HTMLLayout">
+		</layout>
+	</appender>
+  
+  <logger name="com.kgitbank.model">
+		<level value="error" />
+		<appender-ref ref="file_appender" />
+	</logger>
+//log/test_log.html에 로그가 기록된다.
+```
+### @Log4j
+* 롬북에서 @Log4j를 어노테이션해서 사용해도 됨
+```C
+@Log4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+public class RockPaperScossorsTest {
+	
+	@Autowired
+	private RockPaperScissors rps;//root-context.xml에 빈을 등록
+	
+	@Test
+	public void test() {
+		for(int i = 0; i<20; i++) {
+			log.error(rps.game());//@Log4j 어노테이션을 사용하였기에 log를 사용 가능
+      //가위 바위 보 결과를 리턴해주는 rps.game() 메서드
+		}
+	}
+} 
+```
+### PatternLayout
+#### 로그 출력의 형태를 정해줄 수 있음
+* %p: debug, info, warn 등 priority가 출력
+* %m: 로그 내용
+* %d: 로깅 이벤트 발생 시간
+* %t: 로그 이벤트가 발생된 쓰레드의 이름
+* %n: 개행 문자 출력
+* %r: 응답 시간 출력
+* %c: 카테고리 이름 출력
+* %C: 로그를 생성한 클래스명
+* %F: 로그가 발생한 파일명
+```C
+<appender name="patternLayout" class="org.apache.log4j.FileAppender">
+		<param name="file" value="./note/log/RockPaperScissorsPattern.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="로그 발생 시각: %d{yyyy-mm-dd HH:mm:ss}, 에러 종류: %p, 카테고리: [%c] 로그내용: %m %n"/>
+		</layout>
+</appender>
+```
+### RollingFileAppender
+#### 일정한 용량이 초과될 경우에 파일을 추가하여 로그에 기록
+* MaxFileSize: 파일의 용량이 정해진 용량보다 넘어가면 새로운 파일을 만듬
+* MaxBackupIndex: 백업할 파일의 개수를 정함
+```C
+<appender name="Rolling" class="org.apache.log4j.RollingFileAppender">
+		<param name="MaxFileSize" value="50KB"/>
+		<param name="MaxBackupIndex" value="20"/>
+		<param name="file" value="./note/log/RockPaperScissorsRolling.log"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="로그 발생 시각: %d{yyyy-mm-dd HH:mm:ss}, 에러 종류: %p, 카테고리: [%c] 로그내용: %m %n"/>
+		</layout>
+</appender>
+```
+### DailyRollingFileAppender
+#### 매일 새로운 파일에 로그를 기록하는 FileAppender
+* DatePattern: 시간이 지나면 이전 날짜꺼는 파일 형식 뒤에 날짜가 붙여짐
+```C
+<appender name="DailyRolling" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+		<param name="file" value="./note/log/RockPaperScissorsDailyRolling.log"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="로그 발생 시각: %d{yyyy-mm-dd HH:mm:ss}, 에러 종류: %p, 카테고리: [%c] 로그내용: %m %n"/>
+		</layout>
+</appender>
 ```
