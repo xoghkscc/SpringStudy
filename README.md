@@ -28,6 +28,8 @@ Tire[] tires = new Tire[4]
 //즉 버스라는 클래스가 있기 위해서는 타이어라는 클래스가 있어야 함
 //따라서 버스는 타이어에게 의존하고 있음
 ```
+### MVC(모벨-뷰-컨트롤러)
+* 사용자 인터페이스, 데이터 및 논리 제어를 구현하는데 널리 사용되는 소프트웨어 디자인 패턴
 ### 스프링 프로젝트 기본 구조
 * src/main/java: 자바 메인 코드를 작성하는 곳
 * src/main/resources: 자바 메인 코드를 실행할 때 필요한 자원들의 경로
@@ -205,7 +207,7 @@ public class Employee {
 * provided: 컴파일 할 때는 필요하지만 런타임때에는 기본적으로 제공되는 모듈
     * 컴파일 할때는 필요하지만 배포할 때는 필요가 없는 것(jstl, jsp 등)
 * test: 테스트 코드 컴파일 진행시에만 필요한 의존성, 배포에는 포함되지 않는다.
- ## 9. Log4j
+## 9. Log4j
  *  자바에서 로그를 호율적으로 남기기 위한 라이브러리
  *  디버그, 로깅등의 용도로 사용된다(이전에는 sysout으로 찍어봤음)
  *  Logger: 로그 메시지를 Appender에게 전달한다
@@ -316,3 +318,92 @@ public class RockPaperScossorsTest {
 		</layout>
 </appender>
 ```
+## 10. MVC
+### 스프링 MVC의 구조
+* 프로젝트 구동시 xml을 활용하여 편리하게 다양한 설정들을 하도록 미리 설계되어있다.
+* 프로젝트 설정에 관여하는 xml은 web.xml, root-context.xml, servlet.context.xml이다
+* context-param: 모든 컨테이너에서 함께 사용하는 초기화 파라미터
+* root-context.xml의 경로는 web.xml에 전역 초기화 파라미터 (context-param)으로 등록되어 있다.
+* servlet-context.xml의 경로는 appServlet의 초기화 파라미터(init-param)로 등록되어 있다
+### 스프링 MVC에서 사용자의 요청이 처리되는 순서
+1.  HttpRequest가 DispatcherServlet에 도착한다
+2.  요청 내부의 URL을 통해 컨텍스트에 등록된 컨트롤러 중 가장 알맞은 컨트롤러를 찾는다
+3.  해당 컨트롤러를 모두 실행한 후 값을 리턴 받는데, 리턴 받는 타입에 따라 뷰를 찾는 방식이 달라진다
+      * 리턴 받는 타입: String, Model, ModelAndView… 등
+4.  컨트롤러의 실행 결과가 ViewResolver 클래스가 해석하여 어떤 웹 페이지를 응답할지 결정한다
+## 11. Controller
+* JSP의 복잡했던 절차들을 많이 생략한 방식으로 웹 서버를 구현할 수 있음
+      * 포워드, 파라미터 꺼내기 등등…
+* 다양한 방식의 매개변수와 리턴 타입을 사용할 수 있음
+* GET/POST등 method별로 별도의 처리도 어노테이션으로 손쉽게 처리 가능
+* 클래스 위에 @Controller 어노테이션을 달아놓으면 스프링이 알아서 수집해감
+### @RequestMapping
+* 사용자의 요청 URL과 해당 컨트롤러를 매핑시키는 어노테이션
+* 클래스 위에도 사용할 수 있고 메서드 위에도 사용할 수 있다.
+* value: 매핑할 URL을 설정한다(String 배열)
+* ethod: 요청 방식을 구분할 수 있다.
+* @GetMappling, @PostMapping 등으로 간편화 할 수도 있다
+### 컨트롤러의 파라미터 자동 수집 기능
+* 컨트롤러의 매개변수 이름만 같아도 데이터가 알아서 매개변수로 전달된다
+* 넘어오는 데이터와 알맞은 형태의 자바빈 클래스를 사용한다면 JSP의 request.getParameter를 할 필요가 없어진다
+* parameter는 String 타입이나 모델에 적용할 때 알아서 변수에 맞춰 넣어줌
+* @RequestParam(“number”) int myNumber
+      * 이런 식이면 파라미터의 이름을 일치 안하고 myNumber로 입력하여도 number로 들어가게 바꿔줄 수 있음(웬만하면 맞추자)
+* 체크박스처럼 여러 개를 받고 싶으면 @RequestParam(“이름”) ArrayList  이런걸로 받아도 됨
+### Model 타입 파라미터
+* Spring에서는 각 영역 대신 Model에 어트리뷰트를 실어서 전달한다
+* 컨트롤러의 매개변수에 Model타입 변수를 설정해놓으면 알아서 Model인스턴스가 넘어오게 된다
+* 자바빈 클래스를 사용한 파라미터는 자도응로 모델 어트리뷰트에 실려 뷰까지 전달된다
+* 기본 타입 파라미터는 자동으로 전달되지는 않지만 @ModelAttribute 어노테이션을 사용해 자동으로 전달할 수 있다
+```C
+@Log4j
+@Controller
+@RequestMapping("/hello/")
+public class HelloController {
+	
+	//practice/hello/minsu or 민수 일때 작동함
+	@RequestMapping(value = {"/minsu", "/민수"}, 
+			method = {RequestMethod.GET, RequestMethod.POST} ) 
+	public String minsu() {
+		log.info("minsu controller에 도착");
+		return "hello/minsu";//view/hello/minsu.jsp로 보내는 걸 의미
+	}
+	
+	//practice/hello/chulsu 일때 작동함
+	@GetMapping("/chulsu")
+	public void getChulsu(Human human,@RequestParam("taset") ArrayList<String> taset) {
+		log.info("name: "+ human.getName());
+		log.info("age: "+ human.getAge());
+		log.info(taset);
+//  Spring에서는 이렇게 해도 파라미터가 받아짐
+	}
+//	@GetMapping("/chulsu")
+//	public void getChulsu(HttpServletRequest request) {
+//		log.info("get chulsu controller에 도착");
+//		log.info("name: "+ request.getParameter("name"));
+//		원래는 이렇게 request를 전달받아 이렇게 써야 하는게 옛날 방식
+//	}
+	
+	@RequestMapping("/choosinsu")
+	public String choo(Model model, Human human) {
+		return "hello/choosinsu";
+	}
+	
+	@GetMapping("/kim")
+	public String kim() {
+		//앞에 redirect:을 붙이면 뷰를 찾지 않고 리다이렉트를 응답
+		return "redirect:/hello/choosinsu?name=김&age=321";
+	}
+}
+```
+### 컨트롤러의 리턴 타입
+1.  뷰를 찾는 타입
+* DispatcherServlet은 컨트롤러의 리턴값을 통해 알맞은 뷰를 찾게끔 만들어져있다.
+* void: 요청 URI로 /WEB-INF/views/에서 동일한 경로상의 view를 찾는다
+* String: 리턴한 문자열 경로로 /WEB-INF/views/에서 view를 찾는다
+* 문자열 리턴값 앞에 redirect:을 붙이면 리다이렉트한다(forward는 기본값-생략가능)
+* ModelAndView: 데이터도 실어놓을 수 있고 다음으로 가야하는 view가 어딘지도 담고 있다.
+2.  뷰를 응답하지 않고 웹 페이지 이외의 것을 응답하는 타입
+* 자바빈 객체 타입: 요청한 사용자에게 데이터를 생성하여 전달한다 (주로 JSON타입)
+* Model 타입: 요청한 사용자에게 모델에 들어 있는 데이터를 응답한다
+* ResponseEntity: 직접 원하는 타입의 응답을 생성할 수 있는 클래스
