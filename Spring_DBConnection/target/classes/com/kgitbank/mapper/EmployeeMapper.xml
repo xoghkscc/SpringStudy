@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kgitbank.mapper.EmployeeMapper">
+
+	<select id="getEmployee"
+		resultType="com.kgitbank.model.Employee">
+		SELECT * FROM employees WHERE employee_id=#{id}
+	</select>
+
+	<insert id="create">
+		INSERT INTO employees(employee_id, last_name, email, hire_date, job_id)
+		VALUES
+		(employees_seq.nextval, #{last_name}, #{email}, #{hire_date}, #{job_id})
+	</insert>
+
+	<select id="getEmployeeGroup" resultType="com.kgitbank.model.Employee">
+		SELECT job_id, avg(salary) as "salary" FROM employees WHERE <![CDATA[salary <= 8000]]> GROUP BY job_id
+	</select>
+
+</mapper>

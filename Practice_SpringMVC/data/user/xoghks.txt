@@ -1,0 +1,1 @@
+UserInfo(id=xoghks, pw=123, name=辫怕券, age=29, birth=2021-07-14, hobby=[具备, 绵备, 丑备])

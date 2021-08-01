@@ -1,0 +1,1 @@
+UserInfo(id=123, pw=123, name=132, age=123, birth=2021-07-20, hobby=[具备, 绵备, 丑备])

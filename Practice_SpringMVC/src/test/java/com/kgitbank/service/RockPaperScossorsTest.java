@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.kgitbank.model.UserInfo;
 
 import lombok.extern.log4j.Log4j;
 
@@ -28,5 +31,6 @@ public class RockPaperScossorsTest {
 			log.error(rps.game());
 		}
 	}
+	
 
 }
