@@ -25,30 +25,30 @@ import lombok.extern.log4j.Log4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class MybatisTest {
-	
-	@Autowired
-	private SqlSessionFactory sqlSessionFactory; 
+//	
+//	@Autowired
+//	private SqlSessionFactory sqlSessionFactory; 
 	
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	
-	@Autowired
-	private DepartmentMapper departmentMapper;
+//	@Autowired
+//	private DepartmentMapper departmentMapper;
 	
-	@Ignore
-	@Test
-	public void test() {
-		try (
-				SqlSession session = sqlSessionFactory.openSession();
-				Connection conn = session.getConnection();
-				){
-			log.info(conn);
-			assertNotNull(conn);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-		
-	}
+//	@Ignore
+//	@Test
+//	public void test() {
+//		try (
+//				SqlSession session = sqlSessionFactory.openSession();
+//				Connection conn = session.getConnection();
+//				){
+//			log.info(conn);
+//			assertNotNull(conn);
+//		} catch (Exception e) {
+//			fail(e.getMessage());
+//		}
+//		
+//	}
 	@Ignore
 	@Test
 	public void getListTest() {
