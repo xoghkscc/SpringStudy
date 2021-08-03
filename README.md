@@ -407,3 +407,61 @@ public class HelloController {
 * 자바빈 객체 타입: 요청한 사용자에게 데이터를 생성하여 전달한다 (주로 JSON타입)
 * Model 타입: 요청한 사용자에게 모델에 들어 있는 데이터를 응답한다
 * ResponseEntity: 직접 원하는 타입의 응답을 생성할 수 있는 클래스
+## 12. HikariCp
+### pom.xml에 다음과 같이 메이븐을 등록
+```C
+	<dependency>
+		<groupId>com.zaxxer</groupId>
+		<artifactId>HikariCP</artifactId>
+		<version>4.0.3</version>
+	</dependency>
+```
+### root-context에 다음과 같은 방식으로 등록(HikariCp Github를 참조)
+```C
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521/XEPDB1"></property>
+		<property name="username" value="java1"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+		<!-- 생성자로 만드는거임 -->
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+```
+## 13. Mybatis
+### pom.xml에 다음과 같이 메이븐을 등록
+```C
+
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+		<version>3.4.6</version>
+	</dependency>
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>1.3.3</version>
+	</dependency>
+```
+### root-context에 다음과 같은 방식으로 등록(mybatis 공식 페이지를 참조)
+```C
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!--이때 이 dataSource는 Hikari에서 생성된 dataSource이다.-->
+	</bean>
+	
+	<mybatis-spring:scan base-package="com.kgitbank.mapper" />
+```
+### 사용된 다른 프로젝트(참고)
+* Lombok
+* HikariCP
+* Log4j
+* Log4jdbc
+* Spring
+* Spring-jdbc
+* Mybatis
+* Mybatis-spring
+
+
