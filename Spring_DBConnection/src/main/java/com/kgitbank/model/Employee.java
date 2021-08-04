@@ -28,6 +28,5 @@ public class Employee {
 	private Double commission_pct;
 	private Integer manager_id;
 	private Integer department_id;
-//	private String department_name;
-//	private Integer location_id;
+	private Department department;
 }

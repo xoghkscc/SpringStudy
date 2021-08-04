@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.kgitbank.mapper.GradeMapper">
+	<insert id="insertGrade">
+		INSERT into grade VALUES (grade_seq.nextval, #{student_name}, #{grade})
+	</insert>
+	
+	<select id="selectGrade" resultType="com.kgitbank.model.Grade">
+		SELECT * from grade where student_id=#{student_id}
+	</select>
+	
+	<select id="selectAllGrade" resultType="com.kgitbank.model.Grade">
+		SELECT * from grade
+	</select>
+	
+	<update id="updateGrade">
+		UPDATE grade set student_name=#{student_name}, grade=#{grade} WHERE student_id=#{student_id}
+	</update>
+	
+	<delete id="deleteGrade">
+		DELETE FROM grade WHERE student_id=#{student_id}
+	</delete>
+	
+</mapper>

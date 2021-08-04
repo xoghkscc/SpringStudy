@@ -3,11 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kgitbank.mapper.EmployeeMapper">
-
-	<select id="getEmployee"
-		resultType="com.kgitbank.model.Employee">
-		SELECT * FROM employees INNER JOIN departments using (department_id) WHERE employee_id=#{id}
-	</select>
+<!-- 	<resultMap type="com.kgitbank.model.Employee" id="innerJoin"> -->
+<!-- 		<result property="employee_id" column="employee_id"/> -->
+<!-- 		<result property="first_name" column="first_name"/> -->
+<!-- 		<result property="job_id" column="job_id"/> -->
+		
+<!-- 		<association property="department" javaType="innerJoin"> -->
+<!-- 		<id property="department_id" column="department_id"/> -->
+<!-- 		<result property="department_name" column="department_name"/> -->
+<!-- 		<result property="location_id" column="location_id"/> -->
+		
+<!-- 		</association> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<select id="getEmployee" -->
+<!-- 		resultMap="innerJoin"> -->
+<!-- 		SELECT * FROM employees INNER JOIN departments using (department_id) WHERE employee_id=#{id} -->
+<!-- 	</select> -->
 
 	<insert id="create">
 		INSERT INTO employees(employee_id, last_name, email, hire_date, job_id)

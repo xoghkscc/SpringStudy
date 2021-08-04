@@ -5,6 +5,8 @@ C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\o
 \Practice_SpringMVC\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1277832289.index
 \Spring_DBConnection\src\main\java
+C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\610276610.index
+\Spring_DBConnection\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1523175286.index
 \Practice_SpringMVC\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4226339632.index
