@@ -2,8 +2,11 @@ package com.kgitbank.mapper;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Component;
+
 import com.kgitbank.model.Grade;
 
+@Component
 public interface GradeMapper {
 	
 	public int insertGrade(Grade g);

@@ -2,4 +2,5 @@
 <aop-reference-model>
 <aop-project name="Practice_SpringMVC"/>
 <aop-project name="Spring_DBConnection"/>
+<aop-project name="Spring_REST"/>
 </aop-reference-model>

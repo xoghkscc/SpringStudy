@@ -13,3 +13,5 @@ C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\o
 \Practice_SpringMVC\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpingStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4226339632.index
 \Practice_SpringMVC\src\main\java
+C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1709808260.index
+\Spring_REST\src\main\java

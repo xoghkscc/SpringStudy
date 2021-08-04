@@ -24,4 +24,5 @@
 		DELETE FROM grade WHERE student_id=#{student_id}
 	</delete>
 	
+	
 </mapper>

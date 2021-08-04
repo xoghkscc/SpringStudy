@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kgitbank.mapper.GradeMapper;
 import com.kgitbank.model.Grade;
+import com.kgitbank.service.MenuService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -19,6 +20,16 @@ import lombok.extern.log4j.Log4j;
 public class gradeController {
 	@Autowired
 	GradeMapper gm;
+	
+	@Autowired 
+	MenuService menu_service;
+	
+	@RequestMapping("/insert")
+	public String insert(Grade grade) {
+		//여기서는 데이터를 어트리뷰트에 싣는 작업만 하는것이 바람직하다
+		menu_service.addNewGrade(grade);
+		return "grade/CRUD";
+	}
 
 	@RequestMapping("/crud")
 	public String crud() {
@@ -30,16 +41,11 @@ public class gradeController {
 		return "grade/insert";
 	}
 
-	@RequestMapping("/insert")
-	public String insert(Grade grade) {
-		log.info(grade);
-		gm.insertGrade(grade);
-		return "grade/CRUD";
-	}
 	
 	@RequestMapping("/select")
 	public String select(Model model) {
 		ArrayList<Grade> gradeList = gm.selectAllGrade();
+		log.info(gradeList);
 		model.addAttribute("gradeList", gradeList);
 		return "grade/select";
 	}
@@ -54,7 +60,6 @@ public class gradeController {
 			
 		} else {
 			ArrayList<Grade> gradeList = gm.selectAllGrade();
-			log.info(gradeList);
 			model.addAttribute("gradeList", gradeList);
 		}
 		return "grade/select";
