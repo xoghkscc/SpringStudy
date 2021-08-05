@@ -45,7 +45,6 @@ public class gradeController {
 	@RequestMapping("/select")
 	public String select(Model model) {
 		ArrayList<Grade> gradeList = gm.selectAllGrade();
-		log.info(gradeList);
 		model.addAttribute("gradeList", gradeList);
 		return "grade/select";
 	}

@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="selectAllGrade" resultType="com.kgitbank.model.Grade">
-		SELECT * from grade
+		SELECT * from grade ORDER by student_id DESC
 	</select>
 	
 	<update id="updateGrade">

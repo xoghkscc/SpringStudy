@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.kgitbank.mapper.GradeMapper">
+  <mapper namespace="com.kgitbank.grade.mapper.GradeMapper">
 	<insert id="insertGrade">
 		INSERT into grade VALUES (grade_seq.nextval, #{student_name}, #{grade})
 	</insert>

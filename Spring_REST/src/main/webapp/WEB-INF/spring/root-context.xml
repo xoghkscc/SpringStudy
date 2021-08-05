@@ -8,8 +8,28 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521/XEPDB1"></property>
+		<property name="username" value="java1"></property>
+		<property name="password" value="1234"></property>
+	</bean>
 
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<!-- 생성자로 만드는거임 -->
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+
+	<!-- dataSource를 사용해 마이바티스 팩토리를 생성 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<mybatis-spring:scan
+		base-package="com.kgitbank.grade.mapper" />
 	
+	
+		
 	<context:component-scan
 		base-package="com.kgitbank.*" />
 </beans>
