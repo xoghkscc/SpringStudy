@@ -464,4 +464,240 @@ public class HelloController {
 * Mybatis
 * Mybatis-spring
 
+### Mybatis란
+* 	SQL문만 적으면 DB와 연결하는 코드(영속 계층)를 쉽게 작성하도록 도와주는 프레임워크
+* 	거의 모든 JDBC 코드를 알아서 생성해서 사용해준다.
+* 	사용자는 쿼리문의 종류와 원하는 SQL만 작성하면 된다.
+* 	XML 또는 어노테이션 방식으로 설정할 수 있다.
+* 	Mapper 인터페이스를 생성한 뒤 해당 인터페이스와 같은 경로에 있는 XML을 통해 해당 인터페이스의 실체를 구현할 수 있다.
 
+### XML 방식으로 Mybatis를 활용하는 방법
+1.  mapper패키지 경로와 똑같은 폴더 경로를 resourcer에 만들어준다
+![image](https://user-images.githubusercontent.com/82793713/128635852-1b214dda-d553-4f1e-9502-2ad9ccb42693.png)
+2.  그 폴더에 xml 파일을 만들고 https://mybatis.org/mybatis-3/ko/getting-started.html에 들어가서 매핑된 sql 구문을 복사해서 붙인다.
+3.  mapper가 있는 경로에 대해서 mapper를 작성
+```C
+<mapper namespace="com.kgitbank.mapper.EmployeeMapper">
+```
+### 예시
+* xml파일(src/main/resources/com/kgitbank/grade/mapper/GradeMapper.xml)
+```C
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.kgitbank.grade.mapper.GradeMapper">
+    <insert id="insertGrade">
+      INSERT into grade VALUES (grade_seq.nextval, #{student_name}, #{grade})
+    </insert>
+ </mapper>
+```
+* mapper.java(src/main/java/com.kgitbank.grade.mapper.GradeMapper.java)
+```C
+public interface GradeMapper {
+	public int insertGrade(Grade g);
+ //Grade은 student_id, student_name, grade를 필드로 가지로 있는 모델이다.
+ }
+```
+* Controller.java(src/main/java/com.kgitbank.grade.controller.RestController.java)
+```C
+@RestController
+@Log4j
+@RequestMapping("/crud_rest")
+public class CrudRestController {
+	@Autowired
+	GradeMapper gm;
+	
+	@PostMapping(value = "/insertGrade")
+	public void insertGrade(@RequestBody Grade grade) {
+		gm.insertGrade(grade);
+	}
+}
+```
+## 14. Web Project Tier(웹 프로젝트 계층)
+* 화면 계층(Presentation Tier)
+    * 화면에 보여주는 코드를 작성하는 계층(JSP)
+* #비즈니스 계층(Business Tier)
+    * 고객이 원하는 요구사항을 구현하는 코드들(xxxService라는 이름으로 표시한 서비스 컴포넌트 구현)
+* #영속 계층(데이터 계층, Persistence Tier)
+    * Mybatis를 통해 생성되는 DB 접근 코드들
+
+### 웹 프로젝트 계층 구조에 따른 클래스 이름 규칙
+* 컨트롤러 클래스: xxxController
+* 비즈니스 로직 클래스: xxxService(인터페이스), xxxServiceImpl(인터페이스 구현체)
+* 데이터 접근 클래스: xxxDAO, xxxRepository, xxxMapper(DB와의 통신을 담당하는 코드)
+* 데이터 클래스(모델): xxxVO, xxxDTO
+
+### 패키지 이름 규칙
+* 프로젝트 규모가 작은 경우
+    * com.mycompany.projectname.controller.UserController
+* 프로젝트 규모가 큰 경우
+    * 우선 비즈니스 단위별로 패키지를 구분한 뒤 다시 내부에서 컨트롤러와 서비스를 구분한다
+    * com.mycompany.projectname.membermange.controller.UserController
+    * com.mycompany.projectname.adminboard.controller.AdminBoardController
+
+### Controller는 주로 데이터를 어트리뷰트에 싣고 다른 view로 이동해주는 역할만 하는 것이 좋다.
+
+## 15. Spring Bean Scope
+* 스프링은 모든 Bean을 싱글톤으로 관리한다.
+* 컴포넌트에 등록하여 사용할 객체에 인스턴스 값을 넣더라도 static처럼 동작한다.
+* 스프링을 통해 개발할 때는 주입받은 객체는(@Autowired로 받음) 언제나 동일한 객체라고 가정하며 개발해야 한다.
+* 따로 Bean의 Scope를 변경한다면 싱글톤에서 벗어날 수도 있다.
+* sigleton:하나의 spring-context에 단 하나의 인스턴스만 존재하게 된다.
+* prototype: 하나의 Bean으로 여러 인스턴스가 생성될 수 있다.
+* request: 하나의 요청(HttpRequest)에 대해 하나의 인스턴스가 존재하게 된다.
+* session: 하나의 HttpSession에 대해 하나의 인스턴스가 존재하게 된다.
+
+### 추가한 외부 프로젝트
+* jackson-datanind
+* jackson-dataformat-xml
+* gson
+
+## 16. REST(Representational State Tranfer)
+* 하나의 URI가 하나의 고유한 리소스를 응답하도록 설계하는 개념
+* 웹 서버가 웹 브라우저 뿐 아니라 다른 어플리케이션들과도 연결될 수 있는 방식
+* GET/POST/PUT/DELETE/..등의 Http Method를 적극 활용한다.
+
+### Spring의 주요 REST 어노테이션
+* @RestController: REST방식 Controller임을 명시
+* @ResponseBody: 일반적인 뷰 응답이 아닌 데이터 응답을 생성
+* @RequestBody: JSON 데이터를 원하는 타입으로 바인딩 처리
+* @PathVariable: URI에 들어있는 값을 파라미터로 추출할 때 사용
+
+### @RestController
+* 일반적인 컨트롤러와 다르게 동작한다.
+* 메서드의 리턴 타입으로 사용자가 정의한 클래스 타입(데이터 모델)을 사용할 수 있다
+* 리턴 타입으로 설정된 모델을 JSON 또는 XML로 변환하여 응답한다
+```C
+@RestController
+@Log4j
+@RequestMapping("/sample")
+public class RestSampleController {
+	
+	@GetMapping(value = "/getstr", produces = "MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8")//charset=UTF-8을 붙이면 한글을 쓸 수 있음.
+	public FruitVO getFruitVO() {
+		return new FruitVO();
+	}
+}
+```
+![image](https://user-images.githubusercontent.com/82793713/128636623-b6f2aa28-8dc4-4f90-a45a-c23d9d32251f.png)
+-->JSON 형태로 응답함
+
+### @PathVariable
+#### @PathVariable란 URL 경로에 변수를 넣어주는 것
+#### Maplling 어노테이션 값으로 {템플릿변수}를 사용
+#### PathVariable어노테이션을 이용해 {템플릿변수}와 동일한 이름을 갖는 파라미터를 추가
+```C
+@GetMapping(value = "/path/{year}/{month}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String pathTest(
+		@PathVariable("year") Integer year,
+		@PathVariable("month") Integer month
+	) {
+		return "Hello! you putted"+year+"/"+month+" in your uri path";
+	}
+```
+![image](https://user-images.githubusercontent.com/82793713/128636730-841f1dc1-2849-4948-8c95-7188c81d422e.png)
+-->파라미터에 받은 값을 돌려줌
+
+### @RequestBody
+#### 컨트롤러에서 JSON 데이터를 받아야 할 때 사용하는 어노테이션
+```C
+@PostMapping(value = "/fruit", produces = "text/plain; charset=UTF-8")
+	public String convertJsonFruit(@RequestBody FruitVO fruit) {
+		return "Your fuits is " + fruit;
+}
+```
+## 17. MockMvc Class
+* 스프링이 제공하는 컨트롤러 단위 테스트용 클래스
+* 가상의 mVC 컨트롤러를 생성하여 테스트 해볼 수 있다.
+* mockMVC: 테스트를 진행하기 위해 생성한 Spring MVC Context
+* perform(RequestBuilder): 생성한 mockMvc에 요청을 보내보는 메서드
+* RequestBuilders: 원하는 메서드의 RequestBuilder를 생성한 팩토리 클래스
+* andReturn(): perform()의 결과에서 리턴값을 꺼낸다 해당 컨트롤러 실행 결과에서 원하는 값들에 접근할 수 있다.
+
+## 18. AJAX(Async JavaScript and XML)
+* 웹 페이지 전체를 다시 로딩하지 않고, 웹 페이지의 일부분만 갱신하는 자바스크립트 문법
+* 웹 페이지 백그라운드 영역에서 서버와 통신하여 데이터를 받아온 후 그 데이터를 활용한다.
+* 원래는 XML을 받아오는 용도로 개발되었지만 최근에선 JSON을 더 많이 사용한다.
+
+### JavaScript XMLHttpRequest
+* 서버로 비동기 요청을 보낼 수 있는 비동기 요청 클래스
+* 요청을 보낸 후 서버의 처리 상황에 따라 readyState가 변한다
+* 서버에서 응답해준 상태 코드를 활용할 수 있다(Spring의 ResponseEntity_)
+* GET방식으로 데이터를 보낼 때는 open() 메서드의 URI 뒤에 데이터를 붙여서 전송
+* POST방식으로 데이터를 보낼 때는 send() 메서드의 매개변수로 데이터를 전송
+```C
+sampleAsyncBtn.addEventListener('click', () => {
+	const xhttp = new XMLHttpRequest();
+
+	//	비동기 요청에 대한 상태가 변화할때마다 발생하는 이벤트
+	xhttp.addEventListener('readystatechange', (e) => {
+		const target = e.target;
+		const status = target.status;
+		const readyState = target.readyState;
+
+		if (status == 200 && readyState == 4) {
+			//자바스크립트에서는 아주 쉽게 JSON 형식의 문자열을 Object로 변환할 수 있다
+			myobj = JSON.parse(target.responseText);
+      <!--traget에는 JSON형태로 모텔 FruitVO이 담겨있음(필드는 과일이름, 가격, 무게)-->
+			
+      Object.keys(myobj).forEach((key) => {
+      <!--myobj는 JSON 형태로 결과값이 여러개이기 때문에 forEach로 값을 가져와 함-->
+				const new_node = document.createElement("li");
+				new_node.innerHTML = myobj[key];
+				testList.appendChild(new_node);
+			})
+		}
+	});
+	//	비동기 요청에 method와 uri를 설정
+	xhttp.open('GET', '/rest/sample/getSample', true);
+	xhttp.send();
+})
+```
+![image](https://user-images.githubusercontent.com/82793713/128637112-63ef714e-2eaf-49c5-ada5-d534cd29ce69.png)
+
+## 18. 쿠키
+* 서버가 클라이언트 쪽에 저장해 둘 수 있는 데이터
+* 응답과 함께 실어보낼 수 있다.
+* 클라이언트 측에서 위/변조가 자유롭기 때문에 보안에 주의해야 한다.
+* 클라이언트 측에서 저장된 쿠키는 해당 클라이언트가 보내는 모든 요청에 포함된다.
+    * 각 쿠키에 설정된 URL 범위에 따라 전달되지 않을 수도 있다.
+* 쿠키로 데이터를 보내도 ${}로 똑같이 출력할 수 있음
+```C
+//쿠키 추가하기 1
+@GetMapping("/check")
+	public void check(
+			@CookieValue(value = "id", defaultValue = "비회원") String id,
+			@CookieValue(value = "login", defaultValue = "0") String login,
+			Model model
+	) {
+		model.addAttribute("id", id);
+		model.addAttribute("login", login);
+}
+
+//쿠키 추가하기 2
+@GetMapping("/login")
+	public String login(String id, String password, HttpServletResponse response) {
+		response.addCookie(new Cookie("id", id));
+		response.addCookie(new Cookie("password", password));
+		return "cookie/login";
+}
+//쿠키 조회
+	@GetMapping("read_all_cookie")
+	public String readAllCookie(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				System.out.println("name: "+cookie.getName());
+				System.out.println("value: "+cookie.getValue());
+			}
+		}
+		return "/cookie/check";
+	}
+```
+### 쿠키의 필드값들
+* maxAge: 쿠키가 만료되는 시간(초단위)을 설정한다. 기본값은 -1이고, 브라우저 종료시 함께 삭제된다.
+    * ex. 오늘 하루동안 팝업창 보지 않기 가능
+* path: path에 설정해놓은 경로의 하위 경로에서 모두 적용되는 쿠키로 설정한다
+* domain: domain에 설정해놓은 IP주소(도메인이름)에서 모두 적용되는 쿠키로 설정
+* HttpOnly: 쿠키에 자바스크립트 문법을 적용하여 나쁜짓을 하는 것을 예방한다(기본값은 false임)
