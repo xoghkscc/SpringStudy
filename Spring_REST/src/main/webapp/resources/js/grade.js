@@ -45,15 +45,23 @@ selectAll.addEventListener('click', () => {
 
 
 function deleteFunction() {
+	event.preventDefault();
 	const xhttp2 = new XMLHttpRequest();
-	
+
 	const student_id = {
 		student_id: this.getAttribute('id')
 	}
 
-	xhttp2.open('POST', '/rest/crud_rest/deleteGrade', true)
+	xhttp2.addEventListener('readystatechange', (e) => {
+		const target = e.target;
+		const status = target.status;
+		const readyState = target.readyState;
+		if (status == 200 && readyState == 4) {
+			selectAll.click();
+		}
+	})
+	xhttp2.open('POST', '/rest/crud_rest/deleteGrade', true);
 	xhttp2.send(this.getAttribute('id'));
-	selectAll.click();
 
 }
 
@@ -75,6 +83,10 @@ insertBtn.addEventListener('click', (e) => {
 		const target = e.target;
 		const status = target.status;
 		const readyState = target.readyState;
+
+		if (status == 200 && readyState == 4) {
+			selectAll.click();
+		}
 
 	})
 	xhttp.open('POST', '/rest/crud_rest/insertGrade', true);

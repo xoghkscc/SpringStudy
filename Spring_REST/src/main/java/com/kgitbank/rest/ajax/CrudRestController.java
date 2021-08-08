@@ -33,7 +33,7 @@ public class CrudRestController {
 		gm.deleteGrade(Integer.parseInt(student_id));
 	}
 	
-	@PostMapping(value = "/insertGrade", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/insertGrade")
 	public void insertGrade(@RequestBody Grade grade) {
 		gm.insertGrade(grade);
 	}

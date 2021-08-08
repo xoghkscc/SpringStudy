@@ -3,10 +3,12 @@ C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\o
 \Practice_SpringMVC\src\main\java
 C:\study\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4144090096.index
 \Spring_REST\src\main\java
-C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1277832289.index
-\Spring_DBConnection\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1383058205.index
 \Practice_SpringMVC\src\main\java
+C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1277832289.index
+\Spring_DBConnection\src\main\java
+C:\study\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2879594019.index
+\Spring_REST\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1709808260.index
 \Spring_REST\src\main\java
 C:\Users\xoghk\OneDrive\바탕 화면\공부\국비\git\SpringStudy\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\610276610.index

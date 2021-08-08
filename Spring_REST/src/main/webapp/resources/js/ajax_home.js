@@ -31,9 +31,7 @@ function loadStr() {
 
 	xhttp.open('GET', '/rest/sample/getstr', true);
 
-	//	3.  
 	xhttp.send();
-
 }
 
 const sampleAsyncBtn = document.getElementById("sampleAsyncBtn");
@@ -60,12 +58,9 @@ sampleAsyncBtn.addEventListener('click', () => {
 				testList.appendChild(new_node);
 			})
 		}
-
 	});
-
 	//	비동기 요청에 method와 uri를 설정
 	xhttp.open('GET', '/rest/sample/getSample', true);
-
 	xhttp.send();
 })
 
